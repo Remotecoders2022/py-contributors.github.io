@@ -6,213 +6,338 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyContributors - Open Source Community</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: #e2e8f0;
+            scroll-behavior: smooth;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #a78bfa 0%, #c084fc 50%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .glow-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .glow-card:hover {
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
+            transform: translateY(-5px);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, #a78bfa 0%, #c084fc 50%, #93c5fd 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        .gradient-border {
+            position: relative;
+        }
+
+        .gradient-border:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(124, 58, 237, 0.1));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(60px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
         }
     </style>
 </head>
 
-<body class="bg-white">
-    <!-- Navbar -->
-    <nav class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center justify-between w-full">
-                    <!-- Logo and Brand Section -->
-                    <div class="flex-shrink-0 flex items-center space-x-4">
-                        <img class="h-10 w-auto"
-                            src="https://raw.githubusercontent.com/DrakeEntity/project-Image/master/9b2ca712-347a-4987-bac7-a4c3d106ed24_200x200.png"
-                            alt="PyContributors Logo">
-                        <div class="flex flex-col">
-                            <span class="text-xl font-bold text-gray-900">PyContributors</span>
-                            <span class="text-sm text-gray-500 hidden sm:block">Open Source Community</span>
-                        </div>
-                    </div>
+<body class="min-h-screen overflow-x-hidden">
+    <!-- Blob backgrounds -->
+    <div class="blob w-64 h-64 bg-purple-500 rounded-full absolute -top-32 -left-32"></div>
+    <div class="blob w-96 h-96 bg-blue-500 rounded-full absolute -bottom-64 -right-64"></div>
 
-                    <!-- Desktop Navigation -->
-                    <div class="hidden sm:flex sm:space-x-8 items-center">
-                        <a href="/"
-                            class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">
-                            Home
-                        </a>
-                        <a href="/jobs"
-                            class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-200">
-                            Jobs
-                        </a>
-                        <a href="https://github.com/Py-Contributors"
-                            class="inline-flex items-center justify-center bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                            Join Community
-                        </a>
-                    </div>
+    <!-- Navbar -->
+    <nav class="bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-4">
+                    <img class="h-10 w-auto" src="https://raw.githubusercontent.com/DrakeEntity/project-Image/master/9b2ca712-347a-4987-bac7-a4c3d106ed24_200x200.png" alt="PyContributors Logo">
+                    <span class="text-xl font-bold text-white">PyContributors</span>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="nav-link text-slate-300 hover:text-white text-sm font-medium">
+                        Home
+                    </a>
+                    <a href="/jobs" class="nav-link text-slate-300 hover:text-white text-sm font-medium">
+                        Jobs
+                    </a>
+                    <a href="#projects" class="nav-link text-slate-300 hover:text-white text-sm font-medium">
+                        Projects
+                    </a>
+                    <a href="https://github.com/Py-Contributors" class="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity shadow-lg">
+                        <i data-lucide="github" class="w-4 h-4 mr-2 inline"></i>
+                        Join Community
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <div class="bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div class="gradient-bg relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h1
-                        class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 inline-block text-transparent bg-clip-text">
-                        Py Contributors Developers Community
+                <div class="animate__animated animate__fadeInLeft z-10">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 gradient-text leading-tight">
+                        Build with Python.<br>Contribute to Open Source.
                     </h1>
-                    <p class="text-xl text-gray-600 mb-8">
-                        Join a thriving community of developers passionate about Python and open source. Learn,
-                        contribute, and grow together.
+                    <p class="text-xl text-slate-300 mb-8 max-w-lg">
+                        Join a thriving community of developers passionate about Python and open source. Learn, contribute, and grow together.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://github.com/Py-Contributors"
-                            class="inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
-                            <i data-feather="github" class="w-5 h-5 mr-2"></i>
+                        <a href="https://github.com/Py-Contributors" class="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity shadow-lg flex items-center justify-center">
+                            <i data-lucide="github" class="w-5 h-5 mr-2"></i>
                             Join on GitHub
                         </a>
-                        <a href="https://www.linkedin.com/company/pycontributors/"
-                            class="inline-flex items-center justify-center bg-white border border-gray-200 text-gray-800 px-6 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-colors">
-                            <i data-feather="linkedin" class="w-5 h-5 mr-2"></i>
-                            Follow Us
+                        <a href="#projects" class="border border-slate-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-slate-800/50 transition-colors flex items-center justify-center">
+                            Explore Projects
                         </a>
                     </div>
+                    <div class="mt-8 flex items-center space-x-6">
+                        <div class="flex -space-x-2">
+                            <img class="w-10 h-10 rounded-full border-2 border-slate-800" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Contributor">
+                            <img class="w-10 h-10 rounded-full border-2 border-slate-800" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contributor">
+                            <img class="w-10 h-10 rounded-full border-2 border-slate-800" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Contributor">
+                        </div>
+                        <div class="text-sm text-slate-400">
+                            <span class="font-medium text-white">1000+</span> developers already contributing
+                        </div>
+                    </div>
                 </div>
-                <div class="hidden md:block">
-                    <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/c12qzz9dk84endfjlrq2.png" alt="Developers collaborating"
-                        class="w-full h-auto rounded-2xl" />
+                <div class="hidden md:block animate__animated animate__fadeInRight relative">
+                    <div class="relative floating">
+                        <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/c12qzz9dk84endfjlrq2.png" alt="Developers collaborating" class="w-full h-auto rounded-2xl shadow-xl z-10 relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl -z-10 blur-xl"></div>
+                    </div>
+                    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Stats Section -->
-    <div class="bg-white">
+    <div class="bg-slate-900/50 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="text-center p-6 rounded-xl bg-blue-50">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">1000+</div>
-                    <div class="text-gray-600">Community Members</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="glow-card rounded-xl p-6 border border-slate-800 text-center">
+                    <div class="text-4xl font-bold text-purple-400 mb-2">1000+</div>
+                    <div class="text-slate-300">Community Members</div>
+                    <i data-lucide="users" class="w-8 h-8 mx-auto mt-4 text-purple-400/30"></i>
                 </div>
-                <div class="text-center p-6 rounded-xl bg-blue-50">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">50+</div>
-                    <div class="text-gray-600">Open Source Projects</div>
+                <div class="glow-card rounded-xl p-6 border border-slate-800 text-center">
+                    <div class="text-4xl font-bold text-purple-400 mb-2">50+</div>
+                    <div class="text-slate-300">Open Source Projects</div>
+                    <i data-lucide="folder-git-2" class="w-8 h-8 mx-auto mt-4 text-purple-400/30"></i>
                 </div>
-                <div class="text-center p-6 rounded-xl bg-blue-50">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">2000+</div>
-                    <div class="text-gray-600">GitHub Contributions</div>
+                <div class="glow-card rounded-xl p-6 border border-slate-800 text-center">
+                    <div class="text-4xl font-bold text-purple-400 mb-2">2000+</div>
+                    <div class="text-slate-300">GitHub Contributions</div>
+                    <i data-lucide="git-commit" class="w-8 h-8 mx-auto mt-4 text-purple-400/30"></i>
                 </div>
-                <div class="text-center p-6 rounded-xl bg-blue-50">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">100+</div>
-                    <div class="text-gray-600">Active Contributors</div>
+                <div class="glow-card rounded-xl p-6 border border-slate-800 text-center">
+                    <div class="text-4xl font-bold text-purple-400 mb-2">100+</div>
+                    <div class="text-slate-300">Active Contributors</div>
+                    <i data-lucide="heart-handshake" class="w-8 h-8 mx-auto mt-4 text-purple-400/30"></i>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- About Section -->
-    <div id="about" class="bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div id="about" class="gradient-bg relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">About the Community</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    We are a community of developers passionate about contributing to Python, Javascript, and other
-                    open-source projects.
-                    Our mission is to foster collaboration, learning, and innovation in the open-source ecosystem.
+                <h2 class="text-3xl font-bold text-white mb-4">Why Join PyContributors?</h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                    We're more than just a community - we're a platform for growth, learning, and collaboration in the Python ecosystem.
                 </p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl shadow-sm p-8 hover:shadow-md transition-shadow">
-                    <div class="text-blue-600 mb-6">
-                        <i data-feather="code" class="w-12 h-12"></i>
+                <div class="glow-card rounded-2xl p-8 border border-slate-800">
+                    <div class="text-purple-400 mb-6">
+                        <i data-lucide="code-2" class="w-12 h-12"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Open Source Development</h3>
-                    <p class="text-gray-600">Contribute to meaningful projects and build your portfolio while learning
-                        from experienced developers.</p>
+                    <h3 class="text-xl font-semibold text-white mb-4">Real-World Projects</h3>
+                    <p class="text-slate-400">
+                        Work on meaningful open source projects that solve real problems and build your portfolio.
+                    </p>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm p-8 hover:shadow-md transition-shadow">
-                    <div class="text-blue-600 mb-6">
-                        <i data-feather="users" class="w-12 h-12"></i>
+                <div class="glow-card rounded-2xl p-8 border border-slate-800">
+                    <div class="text-purple-400 mb-6">
+                        <i data-lucide="graduation-cap" class="w-12 h-12"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Mentorship</h3>
-                    <p class="text-gray-600">Get guidance from experienced developers and help others grow in their
-                        journey.</p>
+                    <h3 class="text-xl font-semibold text-white mb-4">Mentorship</h3>
+                    <p class="text-slate-400">
+                        Get guidance from experienced developers and help others grow in their coding journey.
+                    </p>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm p-8 hover:shadow-md transition-shadow">
-                    <div class="text-blue-600 mb-6">
-                        <i data-feather="book-open" class="w-12 h-12"></i>
+                <div class="glow-card rounded-2xl p-8 border border-slate-800">
+                    <div class="text-purple-400 mb-6">
+                        <i data-lucide="book-open-text" class="w-12 h-12"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Learning Resources</h3>
-                    <p class="text-gray-600">Access curated learning materials, workshops, and coding challenges to
-                        enhance your skills.</p>
+                    <h3 class="text-xl font-semibold text-white mb-4">Learning Resources</h3>
+                    <p class="text-slate-400">
+                        Access curated tutorials, workshops, and challenges to level up your Python skills.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Projects Section -->
-    <div id="projects" class="bg-white">
+    <div id="projects" class="bg-slate-900/50 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Featured Projects</h2>
-                <p class="text-xl text-gray-600">Explore our open source projects and start contributing today.</p>
+                <h2 class="text-3xl font-bold text-white mb-4">Featured Projects</h2>
+                <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+                    Explore our open source projects and start contributing today.
+                </p>
             </div>
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 border border-blue-100">
-                    <div class="mb-6">
-                        <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qc09w0yst8wcz1j0nw5c.png" alt="Sanatio Project"
-                            class="w-full h-40 object-cover rounded-xl" />
+                <div class="glow-card rounded-2xl p-8 border border-slate-800">
+                    <div class="mb-6 relative overflow-hidden rounded-xl">
+                        <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qc09w0yst8wcz1j0nw5c.png" alt="Sanatio Project" class="w-full h-48 object-cover rounded-xl hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                     </div>
-                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Sanatio</h3>
-                    <p class="text-gray-600 mb-6">
-                        A Python library for data validation and sanitization, designed to simplify error handling in
-                        your code and ensure clean, robust data pipelines.
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-semibold text-white">Sanatio</h3>
+                        <div class="flex space-x-2">
+                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Python</span>
+                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Validation</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 mb-6">
+                        A Python library for data validation and sanitization, designed to simplify error handling in your code and ensure clean, robust data pipelines.
                     </p>
-                    <a href="https://github.com/codeperfectplus/Sanatio"
-                        class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                    <a href="https://github.com/codeperfectplus/Sanatio" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-medium group">
                         View Project
-                        <i data-feather="arrow-right" class="w-4 h-4 ml-2"></i>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
-                <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 border border-blue-100">
-                    <div class="mb-6">
-                        <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qc09w0yst8wcz1j0nw5c.png" alt="Random Profile Generator"
-                            class="w-full h-40 object-cover rounded-xl" />
+                <div class="glow-card rounded-2xl p-8 border border-slate-800">
+                    <div class="mb-6 relative overflow-hidden rounded-xl">
+                        <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qc09w0yst8wcz1j0nw5c.png" alt="Random Profile Generator" class="w-full h-48 object-cover rounded-xl hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                     </div>
-                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Random Profile Generator</h3>
-                    <p class="text-gray-600 mb-6">
-                        A utility package for generating random profiles, ideal for testing applications, populating
-                        dummy data, or experimenting with datasets.
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-semibold text-white">Random Profile Generator</h3>
+                        <div class="flex space-x-2">
+                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Python</span>
+                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Testing</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 mb-6">
+                        A utility package for generating random profiles, ideal for testing applications, populating dummy data, or experimenting with datasets.
                     </p>
-                    <a href="https://github.com/codeperfectplus/RandomProfileGenerator"
-                        class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                    <a href="https://github.com/codeperfectplus/RandomProfileGenerator" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-medium group">
                         View Project
-                        <i data-feather="arrow-right" class="w-4 h-4 ml-2"></i>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
             </div>
+            <!--<div class="text-center mt-12">-->
+            <!--    <a href="https://github.com/Py-Contributors" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-medium group">-->
+            <!--        View All Projects-->
+            <!--        <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>-->
+            <!--    </a>-->
+            <!--</div>-->
         </div>
     </div>
+
+    
 
     <!-- CTA Section -->
-    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-90"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
             <div class="text-center">
-                <h2 class="text-3xl font-bold mb-4">Ready to Start Contributing?</h2>
-                <p class="text-xl text-blue-100 mb-8">
-                    Join our community today and be part of something bigger. Whether you're a beginner
-                    or an experienced developer, there's a place for you in PyContributors.
+                <div class="absolute -top-16 left-1/2 transform -translate-x-1/2">
+                    <i data-lucide="sparkles" class="w-32 h-32 text-white/10"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-4">Ready to Start Contributing?</h2>
+                <p class="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+                    Join our community today and be part of something bigger. Whether you're a beginner or an experienced developer, there's a place for you in PyContributors.
                 </p>
-                <a href="https://github.com/Py-Contributors" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-                    Get Started Today
-                </a>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://github.com/Py-Contributors" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-medium hover:bg-purple-50 transition-colors shadow-lg flex items-center justify-center">
+                        <i data-lucide="github" class="w-5 h-5 mr-2"></i>
+                        Get Started on GitHub
+                    </a>
+                    <a href="https://discord.gg/JfbK3bS" class="bg-purple-700 text-white px-8 py-3 rounded-lg font-medium hover:bg-purple-800 transition-colors shadow-lg flex items-center justify-center">
+                        <i data-lucide="message-circle" class="w-5 h-5 mr-2"></i>
+                        Join Our Discord
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300">
+   <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
@@ -228,7 +353,7 @@
                     <h4 class="text-white font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="jobs" class="hover:text-white transition-colors">Jobs</a></li>
+                        <li><a href="/jobs" class="hover:text-white transition-colors">Jobs</a></li>
                     </ul>
                 </div>
                 <div>
@@ -237,14 +362,14 @@
                         <li>
                             <a href="https://www.linkedin.com/company/pycontributors/"
                                 class="hover:text-white inline-flex items-center transition-colors">
-                                <i data-feather="linkedin" class="w-4 h-4 mr-2"></i>
+                                <i data-lucide="linkedin" class="w-4 h-4 mr-2"></i>
                                 LinkedIn
                             </a>
                         </li>
                         <li>
                             <a href="https://github.com/Py-Contributors"
                                 class="hover:text-white inline-flex items-center transition-colors">
-                                <i data-feather="github" class="w-4 h-4 mr-2"></i>
+                                <i data-lucide="github" class="w-4 h-4 mr-2"></i>
                                 GitHub
                             </a>
                         </li>
@@ -254,21 +379,21 @@
                     <h4 class="text-white font-semibold mb-4">Contact</h4>
                     <ul class="space-y-2 text-sm">
                         <li class="inline-flex items-center">
-                            <i data-feather="mail" class="w-4 h-4 mr-2"></i>
+                            <i data-lucide="mail" class="w-4 h-4 mr-2"></i>
                             contact@pycontributors.org
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 text-sm text-center">
+            <div class="border-t border-slate-800 mt-12 pt-8 text-sm text-center">
                 <p>© 2024 PyContributors. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Initialize Feather Icons
-        feather.replace();
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -281,6 +406,19 @@
                     });
                 }
             });
+        });
+
+        // Animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.glow-card').forEach(card => {
+            observer.observe(card);
         });
     </script>
 </body>
